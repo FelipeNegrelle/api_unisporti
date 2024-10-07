@@ -6,25 +6,22 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 @EqualsAndHashCode
 @ToString
-public class PlaceVO implements Serializable {
+public class QuestionTypeVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id_place")
-    private Integer idPlace;
+    @JsonProperty("id_question_type")
+    private Integer idQuestionType;
 
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("max_capacity")
-    private Short maxCapacity;
+    @JsonProperty("question_type")
+    private String questionType;
 
     @JsonProperty("active")
-    private Boolean active;
+    private Boolean active = true;
 }

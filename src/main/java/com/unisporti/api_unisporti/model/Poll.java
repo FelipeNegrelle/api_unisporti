@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,21 +14,26 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table(name = "place")
-public class Place implements Serializable {
+@Table(name = "poll")
+public class Poll implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_place", nullable = false)
-    private Integer idPlace;
+    @Column(name = "id_poll", nullable = false)
+    private Integer idPoll;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "max_capacity")
-    private Short maxCapacity;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt = new Date();
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;

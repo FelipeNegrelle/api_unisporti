@@ -6,29 +6,27 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table(name = "place")
-public class Place implements Serializable {
+@Table(name = "question_type")
+public class QuestionType implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_place", nullable = false)
-    private Integer idPlace;
+    @Column(name = "id_question_type", nullable = false)
+    private Integer idQuestionType;
 
-    @Column(name = "name", length = 50, nullable = false)
-    private String name;
-
-    @Column(name = "max_capacity")
-    private Short maxCapacity;
+    @Column(name = "type_name", length = 50, nullable = false)
+    private String typeName;
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 }
+

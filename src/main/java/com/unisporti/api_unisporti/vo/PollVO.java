@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,18 +13,21 @@ import java.io.Serializable;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class PlaceVO implements Serializable {
+public class PollVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id_place")
-    private Integer idPlace;
+    @JsonProperty("id_poll")
+    private Integer idPoll;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("max_capacity")
-    private Short maxCapacity;
+    @JsonProperty("created_at")
+    private Date createdAt;
+
+    @JsonProperty("updated_at")
+    private Date updatedAt;
 
     @JsonProperty("active")
     private Boolean active;
