@@ -29,11 +29,11 @@ public class Image implements Serializable {
     @Column(name = "id_table", nullable = false)
     private Integer idTable;
 
-    @Column(name = "order", nullable = false)
-    private Integer order = 0;
+    @Column(name = "ordering", nullable = false)
+    private Short order = 0;
 
     @Column(name = "image", nullable = false)
-    private Byte[] image;
+    private byte[] image;
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;

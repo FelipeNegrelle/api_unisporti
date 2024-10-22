@@ -25,11 +25,11 @@ public class ImageVO implements Serializable {
     @JsonProperty("id_table")
     private Integer idTable;
 
-    @JsonProperty("order")
-    private Integer order = 0;
+    @JsonProperty("ordering")
+    private Short ordering = 0;
 
     @JsonProperty("image")
-    private Byte[] image;
+    private byte[] image;
 
     @JsonProperty("active")
     private Boolean active = true;

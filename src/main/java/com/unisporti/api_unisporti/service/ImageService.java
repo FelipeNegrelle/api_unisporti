@@ -20,7 +20,7 @@ public class ImageService {
 
             entity.setIdTable(image.getIdTable());
             entity.setTableName(image.getTableName());
-            entity.setOrder(image.getOrder());
+            entity.setOrder(image.getOrdering());
             entity.setImage(image.getImage());
             entity.setActive(image.getActive());
 
@@ -38,7 +38,7 @@ public class ImageService {
 
             entity.setIdTable(image.getIdTable());
             entity.setTableName(image.getTableName());
-            entity.setOrder(image.getOrder());
+            entity.setOrder(image.getOrdering());
             entity.setImage(image.getImage());
             entity.setActive(image.getActive());
 

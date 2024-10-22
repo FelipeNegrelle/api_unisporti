@@ -1,16 +1,17 @@
 package com.unisporti.api_unisporti.controller;
 
 import com.unisporti.api_unisporti.exception.ServerException;
+import com.unisporti.api_unisporti.service.QuestionService;
 import com.unisporti.api_unisporti.vo.QuestionVO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/question")
-public class QuestionService {
+public class QuestionController {
     private final QuestionService questionService;
 
-    public QuestionService(QuestionService questionService) {
+    public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
 
