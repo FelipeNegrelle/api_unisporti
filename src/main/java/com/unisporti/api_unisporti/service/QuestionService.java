@@ -27,7 +27,7 @@ public class QuestionService {
             final Question entity = new Question();
 
             entity.setPoll(pollRepository.findById(question.getIdPoll()).orElseThrow(() -> new MalformedRequestException("Enquete não encontrada.")));
-            entity.setQuestionType(questionTypeRepository.findById(question.getIdQuestionType()).orElseThrow(() -> new MalformedRequestException("Tipo de pergunta não encontrado.")));
+//            entity.setQuestionType(questionTypeRepository.findById(question.getIdQuestionType()).orElseThrow(() -> new MalformedRequestException("Tipo de pergunta não encontrado.")));
             entity.setQuestion(question.getQuestion());
             entity.setRequired(question.getRequired());
             entity.setActive(question.getActive());

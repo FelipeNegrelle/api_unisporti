@@ -3,6 +3,8 @@ package com.unisporti.api_unisporti.controller;
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.QuestionService;
 import com.unisporti.api_unisporti.vo.QuestionVO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +17,8 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    public QuestionVO create(QuestionVO question) {
+    @PostMapping
+    public QuestionVO create(@RequestBody QuestionVO question) {
         try {
             return questionService.create(question);
         } catch (Exception e) {
