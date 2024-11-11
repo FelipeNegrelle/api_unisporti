@@ -1,5 +1,7 @@
 package com.unisporti.api_unisporti.service;
 
+import com.unisporti.api_unisporti.exception.MalformedRequestException;
+import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.Poll;
 import com.unisporti.api_unisporti.repository.PollRepository;
 import com.unisporti.api_unisporti.vo.PollVO;
@@ -27,13 +29,13 @@ public class PollService {
 
             return new PollVO(p.getIdPoll(), p.getName(), p.getCreatedAt(), p.getUpdatedAt(), p.getActive());
         } else {
-            throw new Exception("Enquete não pode ser nula.");
+            throw new MalformedRequestException("Enquete não pode ser nula.");
         }
     }
 
     public PollVO update(PollVO poll) throws Exception {
         if (poll != null) {
-            final Poll entity = pollRepository.findById(poll.getIdPoll()).orElseThrow(() -> new Exception("Enquete não encontrada."));
+            final Poll entity = pollRepository.findById(poll.getIdPoll()).orElseThrow(() -> new NotFoundException("Enquete não encontrada."));
             entity.setName(poll.getName());
             entity.setCreatedAt(poll.getCreatedAt());
             entity.setUpdatedAt(poll.getUpdatedAt());
@@ -43,7 +45,7 @@ public class PollService {
 
             return new PollVO(p.getIdPoll(), p.getName(), p.getCreatedAt(), p.getUpdatedAt(), p.getActive());
         } else {
-            throw new Exception("Enquete não pode ser nula.");
+            throw new MalformedRequestException("Enquete não pode ser nula.");
         }
     }
 
@@ -55,23 +57,23 @@ public class PollService {
 
     public PollVO findById(Integer id) throws Exception {
         if (id != null) {
-            final Poll entity = pollRepository.findById(id).orElseThrow(() -> new Exception("Enquete não encontrada."));
+            final Poll entity = pollRepository.findById(id).orElseThrow(() -> new NotFoundException("Enquete não encontrada."));
 
             return new PollVO(entity.getIdPoll(), entity.getName(), entity.getCreatedAt(), entity.getUpdatedAt(), entity.getActive());
         } else {
-            throw new Exception("Id não pode ser nulo.");
+            throw new MalformedRequestException("Id não pode ser nulo.");
         }
     }
 
     public boolean delete(Integer id) throws Exception {
         if (id != null) {
-            final Poll entity = pollRepository.findById(id).orElseThrow(() -> new Exception("Enquete não encontrada."));
+            final Poll entity = pollRepository.findById(id).orElseThrow(() -> new NotFoundException("Enquete não encontrada."));
 
             pollRepository.delete(entity);
 
             return true;
         } else {
-            throw new Exception("Id não pode ser nulo.");
+            throw new MalformedRequestException("Id não pode ser nulo.");
         }
     }
 }
