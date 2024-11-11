@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/api/v1/place")
+@RequestMapping({"/api/secure/admin/place", "/api/secure/manager/place"})
 public class PlaceController {
     private final PlaceService placeService;
 

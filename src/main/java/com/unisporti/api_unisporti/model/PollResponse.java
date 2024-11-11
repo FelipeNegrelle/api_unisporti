@@ -5,31 +5,33 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table(name = "question")
-public class Question implements Serializable {
+@Table(name = "poll_response")
+public class PollResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_question", nullable = false)
-    private Integer idQuestion;
+    private Integer idPollResponse;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "id_poll", nullable = false)
     private Poll poll;
 
-    @Column(name = "question", nullable = false)
-    private String question;
-
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "response_date_time", nullable = false)
+    private Date responseDateTime = new Date();
 }

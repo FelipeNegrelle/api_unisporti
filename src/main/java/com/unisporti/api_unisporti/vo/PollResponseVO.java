@@ -5,26 +5,27 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @EqualsAndHashCode
 @ToString
-public class QuestionVO implements Serializable {
+public class PollResponseVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id_question")
-    private Integer idQuestion;
+    @JsonProperty("id_poll_response")
+    private Integer idPollResponse;
+
+    @JsonProperty("id_user")
+    private Integer idUser;
 
     @JsonProperty("id_poll")
     private Integer idPoll;
 
-    @JsonProperty("question")
-    private String question;
-
-    @JsonProperty("active")
-    private Boolean active = true;
+    @JsonProperty("created_at")
+    private Date createdAt = new Date();
 }
