@@ -41,7 +41,8 @@ public class UserService {
     }
 
     public User authenticate(String cpf, String password) {
-        Optional<User> userOptional = userRepository.findByCpf(cpf);
+        final Optional<User> userOptional = userRepository.findByCpf(cpf);
+
         if (userOptional.isPresent()) {
             final User user = userOptional.get();
 
@@ -51,6 +52,7 @@ public class UserService {
                 }
             }
         }
+
         return null;
     }
 }

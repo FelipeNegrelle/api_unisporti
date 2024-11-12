@@ -9,7 +9,7 @@ public class UserContext {
     private static final ThreadLocal<UserContext> userContext = new ThreadLocal<>();
 
     private String cpf;
-    private Long userId;
+    private Integer userId;
     private String password;
 
     public static UserContext getCurrentUser() {

@@ -10,10 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public class AuthFilter implements Filter {
         }
     };
 
-    public AuthFilter() throws NoSuchAlgorithmException {
+    public AuthFilter() {
     }
 
     @Override
@@ -39,16 +37,13 @@ public class AuthFilter implements Filter {
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         final String authorizationHeader = httpRequest.getHeader("Authorization");
+
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token de autenticação não fornecido");
             return;
         }
 
-        System.out.println("Authorization header: " + authorizationHeader);
-
         final String token = authorizationHeader.substring(7);
-
-        System.out.println("Token: " + token);
 
         try {
             if (jwtUtil.isTokenExpired(token)) {
@@ -59,13 +54,13 @@ public class AuthFilter implements Filter {
             final Claims claims = jwtUtil.getClaimsFromToken(token);
 
             final String cpf = claims.getSubject();
-            final Long idUser = claims.get("idUser", Long.class);
+            final Integer idUser = claims.get("idUser", Integer.class);
             final String password = claims.get("password", String.class);
             final String role = claims.get("role", String.class);
 
             if (isAccessAllowed(httpRequest.getRequestURI(), role)) {
                 if (validateUser(idUser, cpf, password)) {
-                    UserContext userContext = new UserContext();
+                    final UserContext userContext = new UserContext();
                     userContext.setCpf(cpf);
                     userContext.setUserId(idUser);
                     userContext.setPassword(password);
@@ -81,6 +76,7 @@ public class AuthFilter implements Filter {
             }
         } catch (Exception e) {
             e.printStackTrace();
+
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
         } finally {
             UserContext.clear();
@@ -100,21 +96,17 @@ public class AuthFilter implements Filter {
         return false;
     }
 
-    private boolean validateUser(Long idUser, String cpf, String password) {
-
-        final String query = "SELECT COUNT(*) FROM users WHERE id_user = ? AND cpf = ? AND password = ? AND active = true";
+    private boolean validateUser(Integer idUser, String cpf, String password) {
+        final String query = "SELECT 1 FROM users WHERE id_user = ? AND cpf = ? AND password = ? AND active = true";
 
         try (final Connection connection = JDBC.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
-            preparedStatement.setLong(1, idUser);
+            preparedStatement.setInt(1, idUser);
             preparedStatement.setString(2, cpf);
             preparedStatement.setString(3, password);
 
-            final ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            return rs.getInt(1) > 0;
-
+            return preparedStatement.executeQuery().next();
         } catch (Exception e) {
             e.printStackTrace();
 

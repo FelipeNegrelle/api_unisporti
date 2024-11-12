@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = "bWluaGEtcGlrYS1xdWVyLXhlcmVjYS1kZS1tdWxoZXItZ29zdG9zYS1lLXJvc2luaGE=";
+    private static final String SECRET = "cGF0by1wYXRvLWdhbnNvLXBhdG8tcGF0by1nYW5zby1wYXRvLXBhdG8tZ2Fuc28=";
     private final SecretKey SECRET_KEY;
 
     private static final int expirationSeconds = 3600;
