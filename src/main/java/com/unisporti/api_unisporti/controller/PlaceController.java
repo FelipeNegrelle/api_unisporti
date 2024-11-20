@@ -26,7 +26,6 @@ public class PlaceController {
     }
 
     @PutMapping
-    @CrossOrigin
     public PlaceVO update(@RequestBody PlaceVO place) {
         try {
             return placeService.update(place);
@@ -36,7 +35,6 @@ public class PlaceController {
     }
 
     @GetMapping
-    @CrossOrigin
     public List<PlaceVO> findAll() {
         try {
             return placeService.findAll();

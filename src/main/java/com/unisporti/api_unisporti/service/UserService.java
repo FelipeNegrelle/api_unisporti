@@ -16,7 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Boolean validateUser(Long idUser, String cpf, String password) {
+    public Boolean validateUser(Integer idUser, String cpf, String password) {
         final Optional<User> userOptional = userRepository.findById(idUser);
 
         if (userOptional.isEmpty()) {

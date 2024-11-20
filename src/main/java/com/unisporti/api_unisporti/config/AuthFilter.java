@@ -12,24 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthFilter implements Filter {
 
     private final JwtUtil jwtUtil = new JwtUtil();
-
-    private static final Map<String, Integer> roleHierarchy = new HashMap<>() {
-        {
-            put("A", 4);
-            put("M", 3);
-            put("I", 2);
-            put("U", 1);
-        }
-    };
-
-    public AuthFilter() {
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
@@ -55,24 +41,23 @@ public class AuthFilter implements Filter {
 
             final String cpf = claims.getSubject();
             final Integer idUser = claims.get("idUser", Integer.class);
-            final String password = claims.get("password", String.class);
-            final String role = claims.get("role", String.class);
+            final char role = claims.get("role", String.class).charAt(0);
 
-            if (isAccessAllowed(httpRequest.getRequestURI(), role)) {
-                if (validateUser(idUser, cpf, password)) {
+            if (validateUser(idUser, cpf, role)) {
+                if (isAccessAllowed(httpRequest.getRequestURI(), role)) {
                     final UserContext userContext = new UserContext();
                     userContext.setCpf(cpf);
                     userContext.setUserId(idUser);
-                    userContext.setPassword(password);
+                    userContext.setRole(role);
 
                     UserContext.setCurrentUser(userContext);
 
                     chain.doFilter(request, response);
                 } else {
-                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Login inválido");
+                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Endereço não permitido para o usuário");
                 }
             } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Endereço não permitido para o usuário");
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Login inválido");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,28 +68,26 @@ public class AuthFilter implements Filter {
         }
     }
 
-    private boolean isAccessAllowed(String requestURI, String role) {
-        if (requestURI.startsWith("/api/secure/admin") && roleHierarchy.get(role) >= roleHierarchy.get("A")) {
+    private boolean isAccessAllowed(String requestURI, char role) {
+        if (requestURI.startsWith("/api/secure/admin") && Role.getHierarchyByRole(role) >= Role.ROLE_ADMIN.getHierarchy()) {
             return true;
-        } else if (requestURI.startsWith("/api/secure/manager") && roleHierarchy.get(role) >= roleHierarchy.get("M")) {
+        } else if (requestURI.startsWith("/api/secure/manager") && Role.getHierarchyByRole(role) >= Role.ROLE_MANAGER.getHierarchy()) {
             return true;
-        } else if (requestURI.startsWith("/api/secure/instructor") && roleHierarchy.get(role) >= roleHierarchy.get("I")) {
+        } else if (requestURI.startsWith("/api/secure/instructor") && Role.getHierarchyByRole(role) >= Role.ROLE_INSTRUCTOR.getHierarchy()) {
             return true;
-        } else if (requestURI.startsWith("/api/secure/user") && roleHierarchy.get(role) >= roleHierarchy.get("U")) {
-            return true;
-        }
-        return false;
+        } else
+            return requestURI.startsWith("/api/secure/user") && Role.getHierarchyByRole(role) >= Role.ROLE_USER.getHierarchy();
     }
 
-    private boolean validateUser(Integer idUser, String cpf, String password) {
-        final String query = "SELECT 1 FROM users WHERE id_user = ? AND cpf = ? AND password = ? AND active = true";
+    private boolean validateUser(Integer idUser, String cpf, char role) {
+        final String query = "SELECT 1 FROM users WHERE id_user = ? AND cpf = ? AND role = ? AND active = true";
 
         try (final Connection connection = JDBC.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, idUser);
             preparedStatement.setString(2, cpf);
-            preparedStatement.setString(3, password);
+            preparedStatement.setString(3, String.valueOf(role));
 
             return preparedStatement.executeQuery().next();
         } catch (Exception e) {

@@ -17,18 +17,18 @@ public class PollVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id_poll")
+    @JsonProperty(value = "id_poll", access = JsonProperty.Access.READ_ONLY)
     private Integer idPoll;
 
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("created_at")
+    @JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
     private Date createdAt;
 
-    @JsonProperty("updated_at")
+    @JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
     private Date updatedAt;
 
-    @JsonProperty("active")
+    @JsonProperty(value = "active")
     private Boolean active;
 }

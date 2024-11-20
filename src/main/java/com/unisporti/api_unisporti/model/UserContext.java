@@ -10,7 +10,7 @@ public class UserContext {
 
     private String cpf;
     private Integer userId;
-    private String password;
+    private char role;
 
     public static UserContext getCurrentUser() {
         return userContext.get();

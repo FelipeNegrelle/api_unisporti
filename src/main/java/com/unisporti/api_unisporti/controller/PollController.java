@@ -3,7 +3,8 @@ package com.unisporti.api_unisporti.controller;
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.PollService;
 import com.unisporti.api_unisporti.vo.PollVO;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/poll")
@@ -14,19 +15,14 @@ public class PollController {
         this.pollService = pollService;
     }
 
-    @CrossOrigin
-    @PostMapping
-    public PollVO create(@RequestBody PollVO poll) {
+    public PollVO create(PollVO poll) {
         try {
-            System.out.println(poll);
             return pollService.create(poll);
         } catch (Exception e) {
             throw new ServerException("Erro ao criar enquete " + e.getMessage());
         }
     }
 
-    @CrossOrigin
-    @PutMapping
     public PollVO update(PollVO poll) {
         try {
             return pollService.update(poll);
@@ -35,8 +31,6 @@ public class PollController {
         }
     }
 
-    @CrossOrigin
-    @GetMapping
     public PollVO findById(Integer id) {
         try {
             return pollService.findById(id);
@@ -45,8 +39,6 @@ public class PollController {
         }
     }
 
-    @CrossOrigin
-    @DeleteMapping
     public Boolean delete(Integer id) {
         try {
             return pollService.delete(id);
