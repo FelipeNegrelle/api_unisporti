@@ -21,8 +21,8 @@ public class JwtUtil {
         this.SECRET_KEY = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET));
     }
 
-    public String generateToken(String cpf, Integer userId, String password, Character role) {
-        return Jwts.builder().subject(cpf).claim("idUser", userId).claim("password", password).claim("role", role).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + expirationSeconds * 1000)).signWith(SECRET_KEY).compact();
+    public String generateToken(String cpf, Integer userId, Character role) {
+        return Jwts.builder().subject(cpf).claim("idUser", userId).claim("role", role).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + expirationSeconds * 1000)).signWith(SECRET_KEY).compact();
     }
 
     public String extractCpf(String token) {
