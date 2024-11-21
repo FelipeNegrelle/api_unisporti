@@ -15,7 +15,7 @@ public class JwtUtil {
     private static final String SECRET = "cGF0by1wYXRvLWdhbnNvLXBhdG8tcGF0by1nYW5zby1wYXRvLXBhdG8tZ2Fuc28=";
     private final SecretKey SECRET_KEY;
 
-    private static final int expirationSeconds = 3600;
+    private static final int expirationSeconds = 3 * 24 * 60 * 60;
 
     public JwtUtil() {
         this.SECRET_KEY = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET));

@@ -81,6 +81,11 @@ public class UserService {
                 user.setFirstName(userVO.getFirstName());
                 user.setCpf(userVO.getCpf());
                 user.setPassword(BCrypt.withDefaults().hashToString(12, userVO.getCpf().toCharArray()));
+                user.setEmail(userVO.getEmail());
+                user.setPhone(userVO.getPhone());
+                user.setRole(userVO.getRole());
+                user.setBirthDate(userVO.getBirthDate());
+                user.setLastName(userVO.getLastName());
                 user.setActive(true);
 
                 final User entity = userRepository.save(user);
@@ -102,11 +107,13 @@ public class UserService {
                 final User entity = userRepository.findById(userVO.getIdUser()).orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
                 entity.setFirstName(userVO.getFirstName());
                 entity.setCpf(userVO.getCpf());
+                entity.setPassword(BCrypt.withDefaults().hashToString(12, userVO.getCpf().toCharArray()));
                 entity.setEmail(userVO.getEmail());
                 entity.setPhone(userVO.getPhone());
                 entity.setRole(userVO.getRole());
                 entity.setBirthDate(userVO.getBirthDate());
-                entity.setActive(userVO.getActive());
+                entity.setLastName(userVO.getLastName());
+                entity.setActive(true);
 
                 final User updatedUser = userRepository.save(entity);
 
