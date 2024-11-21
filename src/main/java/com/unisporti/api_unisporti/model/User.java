@@ -51,4 +51,8 @@ public class User implements Serializable {
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;
+
+    public static String getUserFullName(User user) {
+        return user.getFirstName() + " " + user.getLastName();
+    }
 }

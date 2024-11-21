@@ -19,7 +19,7 @@ public class FinancialMovementVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty(value = "id_financial_movement", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id_financial_movement")
     private Integer idFinancialMovement;
 
     @JsonProperty("id_plan")
