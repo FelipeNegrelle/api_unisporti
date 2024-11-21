@@ -34,7 +34,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
         }
 
-        final String token = jwtUtil.generateToken(user.getCpf(), user.getIdUser(), user.getRole());
+        final String token = jwtUtil.generateToken(User.getUserFullName(user), user.getCpf(), user.getIdUser(), user.getRole());
 
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }

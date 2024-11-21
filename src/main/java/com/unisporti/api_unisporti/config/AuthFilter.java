@@ -49,13 +49,15 @@ public class AuthFilter implements Filter {
 
             final Claims claims = jwtUtil.getClaimsFromToken(token);
 
-            final String cpf = claims.getSubject();
+            final String fullName = claims.getSubject();
+            final String cpf = claims.get("cpf", String.class);
             final Integer idUser = claims.get("idUser", Integer.class);
             final char role = claims.get("role", String.class).charAt(0);
 
             if (validateUser(idUser, cpf, role)) {
                 if (isAccessAllowed(httpRequest.getRequestURI(), role)) {
                     final UserContext userContext = new UserContext();
+                    userContext.setFullName(fullName);
                     userContext.setCpf(cpf);
                     userContext.setUserId(idUser);
                     userContext.setRole(role);

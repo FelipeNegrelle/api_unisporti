@@ -8,6 +8,7 @@ import lombok.Setter;
 public class UserContext {
     private static final ThreadLocal<UserContext> userContext = new ThreadLocal<>();
 
+    private String fullName;
     private String cpf;
     private Integer userId;
     private char role;
