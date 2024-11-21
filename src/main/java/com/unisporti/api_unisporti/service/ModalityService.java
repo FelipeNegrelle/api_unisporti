@@ -1,7 +1,6 @@
 package com.unisporti.api_unisporti.service;
 
 import com.unisporti.api_unisporti.config.Role;
-import com.unisporti.api_unisporti.config.Util;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.Modality;
@@ -69,8 +68,6 @@ public class ModalityService {
 
     public ModalityVO create(ModalityVO modality) throws Exception {
         if (modality != null) {
-            System.out.println(modality);
-
             final Map<String, String> errors = validate(modality).orElse(new HashMap<>());
 
             if (errors.isEmpty()) {

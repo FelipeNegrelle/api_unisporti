@@ -79,7 +79,7 @@ public class InstructorService {
 
                 final Instructor i = instructorRepository.save(entity);
 
-                return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
+                return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), User.getUserFullName(i.getUser()), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
             } else {
                 throw new MalformedRequestException(Util.formatErrorMessage(errors));
             }
@@ -103,7 +103,7 @@ public class InstructorService {
 
                 final Instructor i = instructorRepository.save(entity);
 
-                return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
+                return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), User.getUserFullName(i.getUser()), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
             } else {
                 throw new MalformedRequestException(Util.formatErrorMessage(errors));
             }
@@ -115,14 +115,14 @@ public class InstructorService {
     public List<InstructorVO> findAll() {
         final List<Instructor> instructors = instructorRepository.findAll();
 
-        return instructors.stream().map(i -> new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive())).toList();
+        return instructors.stream().map(i -> new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), User.getUserFullName(i.getUser()), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive())).toList();
     }
 
     public InstructorVO findById(Integer id) {
         if (id != null) {
             final Instructor entity = instructorRepository.findById(id).orElseThrow(() -> new NotFoundException("Instrutor não encontrado."));
 
-            return new InstructorVO(entity.getIdInstructor(), entity.getUser().getIdUser(), entity.getDegreeName(), entity.getEducationalInstitution(), entity.getStartDate(), entity.getEndDate(), entity.getActive());
+            return new InstructorVO(entity.getIdInstructor(), entity.getUser().getIdUser(), User.getUserFullName(entity.getUser()), entity.getDegreeName(), entity.getEducationalInstitution(), entity.getStartDate(), entity.getEndDate(), entity.getActive());
         } else {
             throw new MalformedRequestException("Id não pode ser nulo.");
         }

@@ -17,7 +17,7 @@ public class UserPlanVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty(value = "id_user_plan", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id_user_plan")
     private Integer idUserPlan;
 
     @JsonProperty("id_user")

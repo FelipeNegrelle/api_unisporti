@@ -17,7 +17,7 @@ public class ModalityVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty(value = "id_modality", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id_modality")
     private Integer idModality;
 
     @JsonProperty("id_instructor")

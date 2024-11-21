@@ -17,11 +17,14 @@ public class InstructorVO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty(value = "id_instructor", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "id_instructor")
     private Integer idInstructor;
 
     @JsonProperty("id_user")
     private Integer idUser;
+
+    @JsonProperty("name")
+    private String name;
 
     @JsonProperty("degree_name")
     private String degreeName;
