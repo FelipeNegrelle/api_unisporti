@@ -3,12 +3,13 @@ package com.unisporti.api_unisporti.controller;
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.InstructorService;
 import com.unisporti.api_unisporti.vo.InstructorVO;
+import com.unisporti.api_unisporti.vo.ModalityVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/secure/admin/instructor", "/api/secure/manager/instructor"})
+@RequestMapping({"/api/secure/admin/instructor", "/api/secure/manager/instructor", "/api/secure/instructor/instructor"})
 public class InstructorController {
     private final InstructorService instructorService;
 
@@ -55,5 +56,10 @@ public class InstructorController {
     @GetMapping
     public List<InstructorVO> findAll() {
         return instructorService.findAll();
+    }
+
+    @GetMapping("/modalities")
+    public List<ModalityVO> findModalities() {
+        return instructorService.getModalities();
     }
 }

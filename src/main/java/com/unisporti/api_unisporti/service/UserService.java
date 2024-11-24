@@ -4,7 +4,9 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.User;
+import com.unisporti.api_unisporti.model.UserContext;
 import com.unisporti.api_unisporti.repository.UserRepository;
+import com.unisporti.api_unisporti.vo.TrainingVO;
 import com.unisporti.api_unisporti.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -133,6 +135,14 @@ public class UserService {
         } else {
             throw new MalformedRequestException("Id não pode ser nulo.");
         }
+    }
+
+    public List<TrainingVO> getTrainings() {
+        final UserContext context = UserContext.getCurrentUser();
+
+        final User user = userRepository.findById(context.getUserId()).orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
+
+        return user.getTrainings().stream().map(training -> new TrainingVO(training.getIdTraining(), training.getModality().getIdModality(), training.getPlace().getIdPlace(), training.getDescription(), training.getWeekDay(), training.getStartHour(), training.getEndHour(), training.getActive())).toList();
     }
 
     public boolean delete(Integer id) {

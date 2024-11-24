@@ -2,13 +2,14 @@ package com.unisporti.api_unisporti.controller;
 
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.UserService;
+import com.unisporti.api_unisporti.vo.TrainingVO;
 import com.unisporti.api_unisporti.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/secure/admin/user", "/api/secure/manager/user/", "/aopi/secure/instructor/user"})
+@RequestMapping({"/api/secure/admin/user", "/api/secure/manager/user/", "/api/secure/instructor/user", "/api/secure/user/user"})
 public class UserController {
 
     private final UserService userService;
@@ -25,6 +26,11 @@ public class UserController {
     @GetMapping("/{id}")
     public UserVO findById(@PathVariable Integer id) {
         return userService.findById(id);
+    }
+
+    @GetMapping("/trainings")
+    public List<TrainingVO> listTrainings() {
+        return userService.getTrainings();
     }
 
     @PostMapping
