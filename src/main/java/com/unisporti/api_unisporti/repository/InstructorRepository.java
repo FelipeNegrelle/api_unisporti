@@ -5,11 +5,13 @@ import com.unisporti.api_unisporti.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Integer> {
     boolean existsByDegreeNameAndIdInstructor(String degreeName, Integer idInstructor);
 
-    boolean findByUser(User user);
+    Optional<Instructor> findByUserIdUser(Integer userIdUser);
 
     boolean existsByUser(User user);
 }

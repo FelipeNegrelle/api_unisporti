@@ -8,8 +8,10 @@ import com.unisporti.api_unisporti.model.Instructor;
 import com.unisporti.api_unisporti.model.User;
 import com.unisporti.api_unisporti.model.UserContext;
 import com.unisporti.api_unisporti.repository.InstructorRepository;
+import com.unisporti.api_unisporti.repository.ModalityRepository;
 import com.unisporti.api_unisporti.repository.UserRepository;
 import com.unisporti.api_unisporti.vo.InstructorVO;
+import com.unisporti.api_unisporti.vo.ModalityVO;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,10 +23,12 @@ import java.util.Optional;
 public class InstructorService {
     private final InstructorRepository instructorRepository;
     private final UserRepository userRepository;
+    private final ModalityRepository modalityRepository;
 
-    public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository) {
+    public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository, ModalityRepository modalityRepository) {
         this.instructorRepository = instructorRepository;
         this.userRepository = userRepository;
+        this.modalityRepository = modalityRepository;
     }
 
     private Optional<Map<String, String>> validate(InstructorVO instructor) {
@@ -125,6 +129,18 @@ public class InstructorService {
             return new InstructorVO(entity.getIdInstructor(), entity.getUser().getIdUser(), User.getUserFullName(entity.getUser()), entity.getDegreeName(), entity.getEducationalInstitution(), entity.getStartDate(), entity.getEndDate(), entity.getActive());
         } else {
             throw new MalformedRequestException("Id não pode ser nulo.");
+        }
+    }
+
+    public List<ModalityVO> getModalities() {
+        final UserContext context = UserContext.getCurrentUser();
+
+        if (Role.getHierarchyByRole(context.getRole()) < Role.ROLE_INSTRUCTOR.getHierarchy()) {
+            throw new MalformedRequestException("Usuário não tem permissão para realizar esta operação.");
+        } else {
+            final Instructor instructor = instructorRepository.findByUserIdUser(context.getUserId()).orElseThrow(() -> new NotFoundException("Instrutor não encontrado."));
+
+            return modalityRepository.findByInstructorIdInstructor(instructor.getIdInstructor()).stream().map(m -> new ModalityVO(m.getIdModality(), m.getInstructor().getIdInstructor(), m.getDescription(), m.getMaxParticipants(), m.getActive())).toList();
         }
     }
 

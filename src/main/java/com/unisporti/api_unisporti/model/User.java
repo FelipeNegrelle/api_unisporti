@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,6 +52,14 @@ public class User implements Serializable {
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "training_user",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_training", referencedColumnName = "id_training")
+    )
+    private List<Training> trainings;
 
     public static String getUserFullName(User user) {
         return user.getFirstName() + " " + user.getLastName();
