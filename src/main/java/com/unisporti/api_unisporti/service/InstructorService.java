@@ -10,6 +10,7 @@ import com.unisporti.api_unisporti.model.UserContext;
 import com.unisporti.api_unisporti.repository.InstructorRepository;
 import com.unisporti.api_unisporti.repository.ModalityRepository;
 import com.unisporti.api_unisporti.repository.UserRepository;
+import com.unisporti.api_unisporti.vo.InstructorAthleteVO;
 import com.unisporti.api_unisporti.vo.InstructorVO;
 import com.unisporti.api_unisporti.vo.ModalityVO;
 import org.springframework.stereotype.Service;
@@ -141,6 +142,28 @@ public class InstructorService {
             final Instructor instructor = instructorRepository.findByUserIdUser(context.getUserId()).orElseThrow(() -> new NotFoundException("Instrutor não encontrado."));
 
             return modalityRepository.findByInstructorIdInstructor(instructor.getIdInstructor()).stream().map(m -> new ModalityVO(m.getIdModality(), m.getInstructor().getIdInstructor(), m.getDescription(), m.getMaxParticipants(), m.getActive())).toList();
+        }
+    }
+
+    public List<InstructorAthleteVO> getAthletes() {
+        final UserContext context = UserContext.getCurrentUser();
+
+        if (Role.getHierarchyByRole(context.getRole()) < Role.ROLE_INSTRUCTOR.getHierarchy()) {
+            throw new MalformedRequestException("Usuário não tem permissão para realizar esta operação.");
+        } else {
+            final Instructor instructor = instructorRepository.findByUserIdUser(context.getUserId()).orElseThrow(() -> new NotFoundException("Instrutor não encontrado."));
+
+            final List<Object[]> raw = instructorRepository.findAthletesByInstructor(instructor.getIdInstructor());
+
+            return raw.stream()
+                    .map(result -> new InstructorAthleteVO(
+                            (Integer) result[0], // id_user
+                            (Integer) result[1], // id_modality
+                            (String) result[2],  // first_name
+                            (String) result[3],  // last_name
+                            (String) result[4]   // modality_description
+                    ))
+                    .toList();
         }
     }
 
