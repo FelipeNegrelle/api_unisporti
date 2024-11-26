@@ -2,6 +2,7 @@ package com.unisporti.api_unisporti.controller;
 
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.InstructorService;
+import com.unisporti.api_unisporti.vo.InstructorAthleteVO;
 import com.unisporti.api_unisporti.vo.InstructorVO;
 import com.unisporti.api_unisporti.vo.ModalityVO;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,10 @@ public class InstructorController {
     @GetMapping("/modalities")
     public List<ModalityVO> findModalities() {
         return instructorService.getModalities();
+    }
+
+    @GetMapping("/athletes")
+    public List<InstructorAthleteVO> findAthletes() {
+        return instructorService.getAthletes();
     }
 }
