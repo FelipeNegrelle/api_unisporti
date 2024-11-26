@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/secure/admin/modality", "/api/secure/manager/modality", "/api/secure/instructor/modality"})
+@RequestMapping({"/api/secure/admin/modality", "/api/secure/manager/modality", "/api/secure/instructor/modality", "/api/secure/user/modality"})
 public class ModalityController {
     private final ModalityService modalityService;
 
@@ -19,6 +19,7 @@ public class ModalityController {
     @PostMapping
     public ModalityVO create(@RequestBody ModalityVO modality) {
         try {
+            System.out.println(modality);
             return modalityService.create(modality);
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/secure/admin/training", "/api/secure/manager/training", "/api/secure/instructor/training"})
+@RequestMapping({"/api/secure/admin/training", "/api/secure/manager/training", "/api/secure/instructor/training", "/api/secure/user/training"})
 public class TrainingController {
     private final TrainingService trainingService;
 
