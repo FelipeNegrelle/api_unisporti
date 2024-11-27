@@ -157,11 +157,12 @@ public class InstructorService {
 
             return raw.stream()
                     .map(result -> new InstructorAthleteVO(
-                            (Integer) result[0], // id_user
-                            (Integer) result[1], // id_modality
-                            (String) result[2],  // first_name
-                            (String) result[3],  // last_name
-                            (String) result[4]   // modality_description
+                            (Integer) result[0], // id_training
+                            (Integer) result[1], // id_user
+                            (String) result[2], // first_name
+                            (String) result[3], // last_name
+                            (String) result[4], // training_description
+                            (String) result[5] // modality_description
                     ))
                     .toList();
         }

@@ -19,16 +19,23 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
     boolean existsByUser(User user);
 
     @Query(value = """
-            select
-            u.id_user,
-            m.id_modality,
-            u.first_name,
-            u.last_name,
-            m.description as modality_description
-            from users u
-            inner join modality m on m.id_modality = (select p.id_modality from plan p where p.id_plan = (select up.id_plan from user_plan up where up.id_user = u.id_user))
-            inner join instructor i on i.id_instructor = m.id_instructor
-            where i.id_instructor = :idInstructor
+            select\s
+                tu.id_training,
+                tu.id_user,
+                u.first_name,
+                u.last_name,
+                t.description as training_description,
+                m.description as modality_description
+            from\s
+                training_user tu
+            inner join\s
+                users u on u.id_user = tu.id_user
+            inner join\s
+                training t on t.id_training = tu.id_training
+            inner join\s
+                modality m on m.id_modality = t.id_modality
+            where\s
+                m.id_instructor = :idInstructor;
             """, nativeQuery = true)
     List<Object[]> findAthletesByInstructor(@Param("idInstructor") Integer idInstructor);
 }

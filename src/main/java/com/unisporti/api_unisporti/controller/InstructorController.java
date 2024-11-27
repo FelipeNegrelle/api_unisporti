@@ -21,7 +21,6 @@ public class InstructorController {
     @PostMapping
     public InstructorVO create(@RequestBody InstructorVO instructor) {
         try {
-            System.out.println("usuario: " + instructor.getIdUser());
             return instructorService.create(instructor);
         } catch (Exception e) {
             throw new ServerException("Erro ao criar instrutor: " + e.getMessage());
