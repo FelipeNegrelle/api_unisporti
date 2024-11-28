@@ -22,8 +22,8 @@ public class FinancialMovementVO implements Serializable {
     @JsonProperty(value = "id_financial_movement")
     private Integer idFinancialMovement;
 
-    @JsonProperty("id_plan")
-    private Integer idPlan;
+    @JsonProperty("id_user_plan")
+    private Integer idUserPlan;
 
     @JsonProperty("value")
     private Float value;

@@ -4,7 +4,6 @@ import com.unisporti.api_unisporti.config.Util;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.Poll;
-import com.unisporti.api_unisporti.model.UserContext;
 import com.unisporti.api_unisporti.repository.PollRepository;
 import com.unisporti.api_unisporti.vo.PollVO;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ import java.util.Optional;
 public class PollService {
     private final PollRepository pollRepository;
 
-    private final UserContext context = UserContext.getCurrentUser();
-
     public PollService(PollRepository pollRepository) {
         this.pollRepository = pollRepository;
     }
@@ -27,8 +24,8 @@ public class PollService {
     private Optional<Map<String, String>> validate(PollVO poll) {
         final Map<String, String> errors = new HashMap<>();
 
-        if (poll.getIdPoll() > 0 && pollRepository.countPollByNameAndIdPollIsNot(poll.getName(), poll.getIdPoll()) > 1) {
-            errors.put("name", "Enquete já cadastrada.");
+        if (poll.getIdPoll() > 0 && pollRepository.existsPollByNameAndIdPollIsNot(poll.getName(), poll.getIdPoll())) {
+            errors.put("name", "Enquete com este nome já cadastrada.");
         }
 
         return errors.isEmpty() ? Optional.empty() : Optional.of(errors);
@@ -49,7 +46,7 @@ public class PollService {
 
                 return new PollVO(p.getIdPoll(), p.getName(), p.getCreatedAt(), p.getUpdatedAt(), p.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Enquete não pode ser nula.");
@@ -71,7 +68,7 @@ public class PollService {
 
                 return new PollVO(p.getIdPoll(), p.getName(), p.getCreatedAt(), p.getUpdatedAt(), p.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Enquete não pode ser nula.");

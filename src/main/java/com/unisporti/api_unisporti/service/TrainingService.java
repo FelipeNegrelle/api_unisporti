@@ -26,7 +26,7 @@ public class TrainingService {
     }
 
     private Optional<Map<String, String>> validate(TrainingVO training) {
-        Map<String, String> errors = new HashMap<>();
+        final Map<String, String> errors = new HashMap<>();
 
         if (training.getIdTraining() != null && trainingRepository.countByIdTrainingIsNot(training.getIdTraining()) > 0) {
             errors.put("id_training", "Já existe um treinamento com este ID.");
@@ -65,14 +65,14 @@ public class TrainingService {
 
     public TrainingVO create(TrainingVO vo) {
         if (vo != null) {
-            Map<String, String> errors = validate(vo).orElse(new HashMap<>());
+            final Map<String, String> errors = validate(vo).orElse(new HashMap<>());
 
             if (errors.isEmpty()) {
-                Modality modality = modalityRepository.findById(vo.getIdModality()).orElseThrow(() -> new NotFoundException("Modalidade não encontrada."));
+                final Modality modality = modalityRepository.findById(vo.getIdModality()).orElseThrow(() -> new NotFoundException("Modalidade não encontrada."));
 
-                Place place = placeRepository.findById(vo.getIdPlace()).orElseThrow(() -> new NotFoundException("Local não encontrado."));
+                final Place place = placeRepository.findById(vo.getIdPlace()).orElseThrow(() -> new NotFoundException("Local não encontrado."));
 
-                Training training = new Training();
+                final Training training = new Training();
                 training.setModality(modality);
                 training.setPlace(place);
                 training.setDescription(vo.getDescription());
@@ -81,7 +81,8 @@ public class TrainingService {
                 training.setEndHour(vo.getEndHour());
                 training.setActive(vo.getActive());
 
-                Training savedTraining = trainingRepository.save(training);
+                final Training savedTraining = trainingRepository.save(training);
+
                 return new TrainingVO(savedTraining.getIdTraining(), savedTraining.getModality().getIdModality(), savedTraining.getPlace().getIdPlace(), savedTraining.getDescription(), savedTraining.getWeekDay(), savedTraining.getStartHour(), savedTraining.getEndHour(), savedTraining.getActive());
             } else {
                 throw new MalformedRequestException(List.of(errors));
@@ -96,7 +97,8 @@ public class TrainingService {
     }
 
     public TrainingVO findById(Integer id) {
-        Training training = trainingRepository.findById(id).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
+        final Training training = trainingRepository.findById(id).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
+
         return new TrainingVO(training.getIdTraining(), training.getModality().getIdModality(), training.getPlace().getIdPlace(), training.getDescription(), training.getWeekDay(), training.getStartHour(), training.getEndHour(), training.getActive());
     }
 
@@ -105,11 +107,11 @@ public class TrainingService {
             final Map<String, String> errors = validate(vo).orElse(new HashMap<>());
 
             if (errors.isEmpty()) {
-                Modality modality = modalityRepository.findById(vo.getIdModality()).orElseThrow(() -> new NotFoundException("Modalidade não encontrada."));
+                final Modality modality = modalityRepository.findById(vo.getIdModality()).orElseThrow(() -> new NotFoundException("Modalidade não encontrada."));
 
-                Place place = placeRepository.findById(vo.getIdPlace()).orElseThrow(() -> new NotFoundException("Local não encontrado."));
+                final Place place = placeRepository.findById(vo.getIdPlace()).orElseThrow(() -> new NotFoundException("Local não encontrado."));
 
-                Training training = trainingRepository.findById(vo.getIdTraining()).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
+                final Training training = trainingRepository.findById(vo.getIdTraining()).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
                 training.setModality(modality);
                 training.setPlace(place);
                 training.setDescription(vo.getDescription());
@@ -118,7 +120,8 @@ public class TrainingService {
                 training.setEndHour(vo.getEndHour());
                 training.setActive(vo.getActive());
 
-                Training updatedTraining = trainingRepository.save(training);
+                final Training updatedTraining = trainingRepository.save(training);
+
                 return new TrainingVO(updatedTraining.getIdTraining(), updatedTraining.getModality().getIdModality(), updatedTraining.getPlace().getIdPlace(), updatedTraining.getDescription(), updatedTraining.getWeekDay(), updatedTraining.getStartHour(), updatedTraining.getEndHour(), updatedTraining.getActive());
             } else {
                 throw new MalformedRequestException(List.of(errors));
@@ -130,7 +133,8 @@ public class TrainingService {
 
     public boolean delete(Integer id) {
         if (id != null) {
-            Training training = trainingRepository.findById(id).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
+            final Training training = trainingRepository.findById(id).orElseThrow(() -> new NotFoundException("Treinamento não encontrado."));
+
             trainingRepository.delete(training);
 
             return true;

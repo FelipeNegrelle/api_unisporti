@@ -81,6 +81,7 @@ public class UserService {
             if (errors.isEmpty()) {
                 final User user = new User();
                 user.setFirstName(userVO.getFirstName());
+                user.setLastName(userVO.getLastName());
                 user.setCpf(userVO.getCpf());
                 user.setPassword(BCrypt.withDefaults().hashToString(12, userVO.getCpf().toCharArray()));
                 user.setEmail(userVO.getEmail());

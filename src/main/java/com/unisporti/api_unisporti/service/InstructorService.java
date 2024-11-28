@@ -1,7 +1,6 @@
 package com.unisporti.api_unisporti.service;
 
 import com.unisporti.api_unisporti.config.Role;
-import com.unisporti.api_unisporti.config.Util;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.Instructor;
@@ -86,7 +85,7 @@ public class InstructorService {
 
                 return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), User.getUserFullName(i.getUser()), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Instrutor não pode ser nulo.");
@@ -110,7 +109,7 @@ public class InstructorService {
 
                 return new InstructorVO(i.getIdInstructor(), i.getUser().getIdUser(), User.getUserFullName(i.getUser()), i.getDegreeName(), i.getEducationalInstitution(), i.getStartDate(), i.getEndDate(), i.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Instrutor não pode ser nulo.");

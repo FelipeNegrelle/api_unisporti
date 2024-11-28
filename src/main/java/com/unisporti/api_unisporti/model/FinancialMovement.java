@@ -25,8 +25,8 @@ public class FinancialMovement implements Serializable {
     private Integer idFinancialMovement;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plan", referencedColumnName = "id_plan")
-    private Plan plan;
+    @JoinColumn(name = "id_user_plan", referencedColumnName = "id_user_plan")
+    private UserPlan userPlan;
 
     @Column(name = "value", nullable = false)
     private Float value;

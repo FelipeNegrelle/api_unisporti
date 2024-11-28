@@ -1,6 +1,5 @@
 package com.unisporti.api_unisporti.service;
 
-import com.unisporti.api_unisporti.config.Util;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.Plan;
@@ -58,7 +57,7 @@ public class PlanService {
 
                 return new PlanVO(savedPlan.getIdPlan(), savedPlan.getModality().getIdModality(), savedPlan.getName(), savedPlan.getPriceCents(), savedPlan.getDurationDays(), savedPlan.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Plano não pode ser nulo.");
@@ -81,7 +80,7 @@ public class PlanService {
 
                 return new PlanVO(updatedPlan.getIdPlan(), updatedPlan.getModality().getIdModality(), updatedPlan.getName(), updatedPlan.getPriceCents(), updatedPlan.getDurationDays(), updatedPlan.getActive());
             } else {
-                throw new MalformedRequestException(Util.formatErrorMessage(errors));
+                throw new MalformedRequestException(List.of(errors));
             }
         } else {
             throw new MalformedRequestException("Plano não pode ser nulo.");
