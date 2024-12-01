@@ -3,25 +3,29 @@ package com.unisporti.api_unisporti.service;
 import com.unisporti.api_unisporti.exception.MalformedRequestException;
 import com.unisporti.api_unisporti.exception.NotFoundException;
 import com.unisporti.api_unisporti.model.FinancialMovement;
+import com.unisporti.api_unisporti.model.User;
+import com.unisporti.api_unisporti.model.UserContext;
 import com.unisporti.api_unisporti.model.UserPlan;
 import com.unisporti.api_unisporti.repository.FinancialMovementRepository;
 import com.unisporti.api_unisporti.repository.UserPlanRepository;
+import com.unisporti.api_unisporti.repository.UserRepository;
 import com.unisporti.api_unisporti.vo.FinancialMovementVO;
+import com.unisporti.api_unisporti.vo.MyPaymentsVO;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FinancialMovementService {
     private final FinancialMovementRepository financialMovementRepository;
     private final UserPlanRepository userPlanRepository;
+    private final UserRepository userRepository;
 
-    public FinancialMovementService(FinancialMovementRepository financialMovementRepository, UserPlanRepository userPlanRepository) {
+    public FinancialMovementService(FinancialMovementRepository financialMovementRepository, UserPlanRepository userPlanRepository, UserRepository userRepository) {
         this.financialMovementRepository = financialMovementRepository;
         this.userPlanRepository = userPlanRepository;
+        this.userRepository = userRepository;
     }
 
     private Optional<Map<String, String>> validate(FinancialMovementVO movementVO) {
@@ -74,6 +78,27 @@ public class FinancialMovementService {
 
     public List<FinancialMovementVO> findAll() {
         return financialMovementRepository.findAll().stream().map(movement -> new FinancialMovementVO(movement.getIdFinancialMovement(), movement.getUserPlan() != null ? movement.getUserPlan().getIdUserPlan() : null, movement.getValue(), movement.getDateTimePayment())).toList();
+    }
+
+    public List<MyPaymentsVO> getMyPayments() {
+        final UserContext context = UserContext.getCurrentUser();
+
+        final User user = userRepository.findById(context.getUserId())
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
+
+        // Busca os pagamentos do usuário
+        final List<Object[]> raw = financialMovementRepository.findPaymentsByUserId(user.getIdUser());
+
+        // Mapeia o resultado da query para MyPaymentsVO
+        return raw.stream()
+                .map(result -> new MyPaymentsVO(
+                        (Integer) result[0], // id_financial_movement
+                        (Float) result[1], // value
+                        (String) result[2], // plan_name
+                        (String) result[3], // modality_name
+                        (String) result[4] // date_time_payment
+                ))
+                .collect(Collectors.toList());
     }
 
     public void delete(Integer id) throws Exception {

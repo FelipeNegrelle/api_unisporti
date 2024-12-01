@@ -3,12 +3,14 @@ package com.unisporti.api_unisporti.controller;
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.FinancialMovementService;
 import com.unisporti.api_unisporti.vo.FinancialMovementVO;
+import com.unisporti.api_unisporti.vo.InstructorAthleteVO;
+import com.unisporti.api_unisporti.vo.MyPaymentsVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/secure/admin/financial-movement", "/api/secure/manager/financial-movement"})
+@RequestMapping({"/api/secure/admin/financial-movement", "/api/secure/manager/financial-movement", "api/secure/user/financial-movement"})
 public class FinancialMovementController {
     private final FinancialMovementService financialMovementService;
 
@@ -37,6 +39,11 @@ public class FinancialMovementController {
     @GetMapping
     public List<FinancialMovementVO> findAll() {
         return financialMovementService.findAll();
+    }
+
+    @GetMapping("/my-payments")
+    public List<MyPaymentsVO> myPayments() {
+        return financialMovementService.getMyPayments();
     }
 
     @DeleteMapping("/{id}")
