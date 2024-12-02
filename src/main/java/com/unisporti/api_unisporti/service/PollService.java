@@ -24,7 +24,7 @@ public class PollService {
     private Optional<Map<String, String>> validate(PollVO poll) {
         final Map<String, String> errors = new HashMap<>();
 
-        if (poll.getIdPoll() > 0 && pollRepository.existsPollByNameAndIdPollIsNot(poll.getName(), poll.getIdPoll())) {
+        if (poll != null && pollRepository.existsPollByNameAndIdPollIsNot(poll.getName(), poll.getIdPoll())) {
             errors.put("name", "Enquete com este nome já cadastrada.");
         }
 

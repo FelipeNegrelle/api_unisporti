@@ -3,8 +3,7 @@ package com.unisporti.api_unisporti.controller;
 import com.unisporti.api_unisporti.exception.ServerException;
 import com.unisporti.api_unisporti.service.PollService;
 import com.unisporti.api_unisporti.vo.PollVO;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/api/secure/admin/poll", "/api/secure/manager/poll", "/api/secure/user/poll"})
@@ -15,7 +14,8 @@ public class PollController {
         this.pollService = pollService;
     }
 
-    public PollVO create(PollVO poll) {
+    @PostMapping
+    public PollVO create(@RequestBody PollVO poll) {
         try {
             return pollService.create(poll);
         } catch (Exception e) {
@@ -23,7 +23,8 @@ public class PollController {
         }
     }
 
-    public PollVO update(PollVO poll) {
+    @PutMapping
+    public PollVO update(@RequestBody PollVO poll) {
         try {
             return pollService.update(poll);
         } catch (Exception e) {
@@ -31,7 +32,8 @@ public class PollController {
         }
     }
 
-    public PollVO findById(Integer id) {
+    @GetMapping("/{id}")
+    public PollVO findById(@PathVariable Integer id) {
         try {
             return pollService.findById(id);
         } catch (Exception e) {
@@ -39,7 +41,8 @@ public class PollController {
         }
     }
 
-    public Boolean delete(Integer id) {
+    @DeleteMapping("/{id}")
+    public Boolean delete(@PathVariable Integer id) {
         try {
             return pollService.delete(id);
         } catch (Exception e) {
