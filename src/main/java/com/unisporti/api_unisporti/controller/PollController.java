@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/poll")
+@RequestMapping({"/api/secure/admin/poll", "/api/secure/manager/poll", "/api/secure/user/poll"})
 public class PollController {
     private final PollService pollService;
 

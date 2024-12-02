@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/question")
+@RequestMapping({"/api/secure/admin/question", "/api/secure/manager/question", "/api/secure/user/question"})
 public class QuestionController {
     private final QuestionService questionService;
 

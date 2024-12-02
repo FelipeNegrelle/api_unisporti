@@ -30,11 +30,11 @@ public class PlanService {
             errors.put("name", "Já existe um plano com este nome.");
         }
 
-        if (plan.getPriceCents() <= 0) {
+        if (plan.getPriceCents() == null || plan.getPriceCents() <= 0) {
             errors.put("price_cents", "O preço deve ser maior que zero.");
         }
 
-        if (plan.getDurationDays() <= 0) {
+        if (plan.getDurationDays() == null || plan.getDurationDays() <= 0) {
             errors.put("duration_days", "A duração deve ser maior que zero.");
         }
 
@@ -57,6 +57,7 @@ public class PlanService {
 
                 return new PlanVO(savedPlan.getIdPlan(), savedPlan.getModality().getIdModality(), savedPlan.getName(), savedPlan.getPriceCents(), savedPlan.getDurationDays(), savedPlan.getActive());
             } else {
+                System.out.println(errors);
                 throw new MalformedRequestException(List.of(errors));
             }
         } else {

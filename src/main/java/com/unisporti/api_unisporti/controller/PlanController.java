@@ -28,6 +28,7 @@ public class PlanController {
     @PutMapping
     public PlanVO update(@RequestBody PlanVO plan) {
         try {
+            System.out.println(plan);
             return planService.update(plan);
         } catch (Exception e) {
             throw new ServerException("Erro ao atualizar plano: " + e.getMessage());
